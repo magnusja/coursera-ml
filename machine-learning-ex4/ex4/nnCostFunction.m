@@ -67,6 +67,14 @@ a_2 = sigmoid(a_1 * Theta1');
 a_2 = [ones(m, 1) a_2];
 p = sigmoid(a_2 * Theta2');
 
+% y_bool = zeros(m, num_labels);
+% 
+% for i = 1:m
+%     y_bool(i, y(i)) = 1;
+% end
+% 
+% J = 1 / m * sum(-y_bool * log(p') - (1 - y_bool) * log(1 - p'));
+
 % One loop
 for i = 1:m
     y_bool = zeros(1, num_labels);
@@ -74,7 +82,6 @@ for i = 1:m
     
     
     J = J + 1 / m * (-y_bool * log(p(i,:)') - (1 - y_bool) * log(1 - p(i,:))');
-    
 end
 
 % regularization, without theta_1 values
