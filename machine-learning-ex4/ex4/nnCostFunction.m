@@ -98,6 +98,37 @@ J = J + lambda * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end) .^ 2)
 %     
 % end
 
+
+
+% Backpropagation
+
+for t = 1:m
+    % Feedforward
+    a_1 = [1 X(t, :)];
+    z_2 = a_1 * Theta1';
+    a_2 = [1 sigmoid(z_2)];
+    z_3 = a_2 * Theta2';
+    a_3 = sigmoid(z_3);
+    
+    y_bool = zeros(1, num_labels);
+    y_bool(y(t)) = 1;
+    
+    % Error layer 3
+    delta_3 = a_3 - y_bool;
+    
+    % Error layer 2 (hidden layer)
+    delta_2 = delta_3 * Theta2 .* [1 sigmoidGradient(z_2)];
+    delta_2 = delta_2(2:end);
+    
+    % accumulate gradient
+    Theta2_grad = Theta2_grad + delta_3' * a_2;
+    Theta1_grad = Theta1_grad + delta_2' * a_1;
+    
+end
+
+Theta2_grad = Theta2_grad / m;
+Theta1_grad = Theta1_grad / m;
+
 % -------------------------------------------------------------
 
 % =========================================================================
